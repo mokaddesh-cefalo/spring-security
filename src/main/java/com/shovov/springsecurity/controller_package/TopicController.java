@@ -26,6 +26,7 @@ public class TopicController {
     @PostMapping
     @ResponseBody
     public Topic postTopicForALanguage(@PathVariable(value = "languageId") long languageId, @RequestBody Topic topic){
+        System.out.println(topic);
         return topicService.postTopicForALanguage(languageId, topic);
     }
 

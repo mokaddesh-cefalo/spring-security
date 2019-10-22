@@ -12,4 +12,5 @@ public interface TopicService {
     Optional<Topic> getTopicById(@PathVariable long id);
     Optional<Topic> postTopicById(long id, Topic newTopic);
     void deleteTopicById(long id);
+
 }

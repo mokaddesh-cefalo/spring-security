@@ -14,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(indexes = {@Index(columnList = "parent_topic_id")})
+@Table(indexes = {@Index(columnList = "language_id")})
 public class Topic implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
@@ -29,14 +29,15 @@ public class Topic implements Serializable {
     @OneToMany(mappedBy = "parentTopic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<TopicInformation> topicInfoList;
 
-    @Column(name = "parent_topic_id")
-    long parentTopicId;
+    /*@Column(name = "parent_topic_id")
+    Long parentTopicId;*/
 
     LocalDateTime createdDate, lastModified;
 
     public Topic(){
         topicInfoList = new ArrayList<>();
     }
+    public Topic(Long id){ this.id = id; }
 
     @PrePersist
     void prePersist() {
@@ -45,7 +46,6 @@ public class Topic implements Serializable {
 
     @PreUpdate
     void preUpdate() {
-        System.out.println("Here");
         lastModified = LocalDateTime.now();
     }
 }

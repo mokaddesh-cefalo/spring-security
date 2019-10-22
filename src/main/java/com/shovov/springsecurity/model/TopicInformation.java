@@ -1,5 +1,6 @@
 package com.shovov.springsecurity.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,25 +21,27 @@ public class TopicInformation implements Serializable {
     @Column(updatable = false)
     LocalDateTime createdDate;
 
-    @Column(nullable = false)
     String topicInfoName;
+
+    public TopicInformation(Topic parentTopic){
+        this.parentTopic = parentTopic;
+    }
 
     LocalDateTime lastModified;
     String topicInfoCodeUrl;
     String topicInfoDescription;
 
-    @ManyToOne @JoinColumn(name = "topic_id", nullable = false)
+    @ManyToOne @JoinColumn(name = "topic_id")
+    @JsonIgnore
     Topic parentTopic;
 
     @PrePersist
     void prePersist() {
-        System.out.println("FUCK");
         createdDate = LocalDateTime.now();
     }
 
     @PreUpdate
     void preUpdate() {
-        System.out.println("Here");
         lastModified = LocalDateTime.now();
     }
 }
