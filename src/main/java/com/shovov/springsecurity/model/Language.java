@@ -29,12 +29,12 @@ public class Language implements Serializable {
     public Language(){
         topicList = new ArrayList<>();
     }
-
+    public Language(long id){ this.id = id; }
     public Language(String languageName){
         this.languageName = languageName;
     }
 
-    @OneToMany
+    @OneToMany(mappedBy = "parentLanguage", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<Topic> topicList;
 
     @PrePersist

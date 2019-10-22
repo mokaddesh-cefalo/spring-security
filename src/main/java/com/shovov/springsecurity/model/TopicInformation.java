@@ -16,14 +16,18 @@ public class TopicInformation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+
     @Column(updatable = false)
     LocalDateTime createdDate;
-    LocalDateTime lastModified;
+
     @Column(nullable = false)
     String topicInfoName;
+
+    LocalDateTime lastModified;
     String topicInfoCodeUrl;
     String topicInfoDescription;
-    @ManyToOne
+
+    @ManyToOne @JoinColumn(name = "topic_id", nullable = false)
     Topic parentTopic;
 
     @PrePersist
