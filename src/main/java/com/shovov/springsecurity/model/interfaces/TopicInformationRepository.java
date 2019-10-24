@@ -9,4 +9,5 @@ import java.util.List;
 public interface TopicInformationRepository extends CrudRepository<TopicInformation, Long> {
 
     List<TopicInformation> findTopicInformationByParentTopic(Topic topic);
+    List<TopicInformation> findTopicInformationByUserName(String userName);
 }

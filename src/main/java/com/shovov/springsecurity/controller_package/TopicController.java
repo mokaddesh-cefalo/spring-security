@@ -5,6 +5,7 @@ import com.shovov.springsecurity.service.interfaces.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,10 @@ import java.util.Optional;
 public class TopicController {
     @Autowired TopicService topicService;
 
+    String getLoggedInUserName(){
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
     @GetMapping
     @ResponseBody
     public List<Topic> getAllTopicForALanguage(@PathVariable(value = "languageId") long languageId){
@@ -24,7 +29,7 @@ public class TopicController {
     @PostMapping
     @ResponseBody
     public Topic postTopicForALanguage(@PathVariable(value = "languageId") long languageId, @RequestBody Topic topic){
-        System.out.println(topic);
+        topic.setUserName(getLoggedInUserName());
         return topicService.postTopicForALanguage(languageId, topic);
     }
 

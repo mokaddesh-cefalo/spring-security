@@ -15,16 +15,23 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(indexes = {@Index(columnList = "user_name")})
 public class Language implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+
     @Column(nullable = false)
     String languageName;
+
     @Column(updatable = false)
     LocalDateTime createdDate;
+
     LocalDateTime lastModified;
+
+    @Column(name = "user_name", updatable = false)
+    String userName;
 
     public Language(){
         topicList = new ArrayList<>();

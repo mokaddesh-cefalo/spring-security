@@ -14,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(indexes = {@Index(columnList = "language_id")})
+@Table(indexes = {@Index(columnList = "language_id"), @Index(columnList = "user_name")})
 public class Topic implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
@@ -29,8 +29,9 @@ public class Topic implements Serializable {
     @OneToMany(mappedBy = "parentTopic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<TopicInformation> topicInfoList;
 
-    /*@Column(name = "parent_topic_id")
-    Long parentTopicId;*/
+    @Column(name = "user_name", updatable = false)
+    String userName;
+
 
     LocalDateTime createdDate, lastModified;
 

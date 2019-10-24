@@ -13,6 +13,7 @@ import java.util.Date;
 @Entity
 @Data
 @NoArgsConstructor
+@Table(indexes = {@Index(columnList = "user_name")})
 public class TopicInformation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,6 +35,9 @@ public class TopicInformation implements Serializable {
     @ManyToOne @JoinColumn(name = "topic_id")
     @JsonIgnore
     Topic parentTopic;
+
+    @Column(name = "user_name", updatable = false)
+    String userName;
 
     @PrePersist
     void prePersist() {

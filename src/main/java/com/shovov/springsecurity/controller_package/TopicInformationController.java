@@ -5,6 +5,7 @@ import com.shovov.springsecurity.service.interfaces.TopicInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,10 @@ public class TopicInformationController {
     @Autowired
     TopicInformationService topicInformationService;
 
+    String getLoggedInUserName(){
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
     @GetMapping
     public List<TopicInformation> getTopicInformationByTopicId(@PathVariable long topicId){
         return topicInformationService.getTopicInformationByTopicId(topicId);
@@ -25,6 +30,7 @@ public class TopicInformationController {
 
     @PostMapping
     public TopicInformation postTopicInformationByTopicId(@PathVariable long topicId, @RequestBody TopicInformation topicInformation, HttpServletResponse response){
+        topicInformation.setUserName(getLoggedInUserName());
         response.setStatus(201);
         return topicInformationService.postTopicInformationByTopicId(topicId, topicInformation);
     }

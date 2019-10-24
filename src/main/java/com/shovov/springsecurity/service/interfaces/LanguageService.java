@@ -11,4 +11,5 @@ public interface LanguageService {
     Optional<Language> getLanguageById(long id);
     Optional<Language> postLanguageById(long id,Language language);
     void deleteLanguageById(long id);
+    String getLoggedInUserName();
 }
