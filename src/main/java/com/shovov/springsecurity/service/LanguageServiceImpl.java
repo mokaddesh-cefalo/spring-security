@@ -1,12 +1,11 @@
 package com.shovov.springsecurity.service;
 
 import com.shovov.springsecurity.model.Language;
-import com.shovov.springsecurity.model.LanguageRepository;
-import com.shovov.springsecurity.service.interface_class.LanguageService;
+import com.shovov.springsecurity.model.interfaces.LanguageRepository;
+import com.shovov.springsecurity.service.interfaces.LanguageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

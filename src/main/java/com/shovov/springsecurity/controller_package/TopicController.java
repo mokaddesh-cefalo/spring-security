@@ -1,14 +1,12 @@
 package com.shovov.springsecurity.controller_package;
 
 import com.shovov.springsecurity.model.Topic;
-import com.shovov.springsecurity.service.interface_class.TopicService;
+import com.shovov.springsecurity.service.interfaces.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.awt.desktop.OpenFilesEvent;
 import java.util.List;
 import java.util.Optional;
 

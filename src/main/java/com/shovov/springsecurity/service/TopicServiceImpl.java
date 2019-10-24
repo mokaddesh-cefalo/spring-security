@@ -1,17 +1,13 @@
 package com.shovov.springsecurity.service;
 
-import com.shovov.springsecurity.controller_package.PublicUrlController;
 import com.shovov.springsecurity.model.Language;
 import com.shovov.springsecurity.model.Topic;
-import com.shovov.springsecurity.model.TopicRepository;
-import com.shovov.springsecurity.service.interface_class.TopicService;
+import com.shovov.springsecurity.model.interfaces.TopicRepository;
+import com.shovov.springsecurity.service.interfaces.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.lang.management.OperatingSystemMXBean;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

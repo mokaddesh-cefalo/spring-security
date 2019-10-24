@@ -10,4 +10,14 @@ public class PublicUrlController {
     public String getGreeting(){
         return "Hello";
     }
+
+    @RequestMapping("/user")
+    public String greetUser(){
+        return "user";
+    }
+
+    @RequestMapping("/admin")
+    public String greetAdmin(){
+        return "admin";
+    }
 }

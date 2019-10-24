@@ -1,10 +1,9 @@
 package com.shovov.springsecurity.service;
 
-import com.shovov.springsecurity.model.Language;
 import com.shovov.springsecurity.model.Topic;
 import com.shovov.springsecurity.model.TopicInformation;
-import com.shovov.springsecurity.model.TopicInformationRepository;
-import com.shovov.springsecurity.service.interface_class.TopicInformationService;
+import com.shovov.springsecurity.model.interfaces.TopicInformationRepository;
+import com.shovov.springsecurity.service.interfaces.TopicInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

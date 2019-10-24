@@ -1,5 +1,7 @@
-package com.shovov.springsecurity.model;
+package com.shovov.springsecurity.model.interfaces;
 
+import com.shovov.springsecurity.model.Topic;
+import com.shovov.springsecurity.model.TopicInformation;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

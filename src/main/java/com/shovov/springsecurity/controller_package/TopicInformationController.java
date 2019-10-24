@@ -1,7 +1,7 @@
 package com.shovov.springsecurity.controller_package;
 
 import com.shovov.springsecurity.model.TopicInformation;
-import com.shovov.springsecurity.service.interface_class.TopicInformationService;
+import com.shovov.springsecurity.service.interfaces.TopicInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +47,7 @@ public class TopicInformationController {
         } else return new ResponseEntity(optionalTopicInformation.get(), HttpStatus.OK);
     }
 
-    @GetMapping("/{topicInformationId}")
+    @DeleteMapping("/{topicInformationId}")
     public ResponseEntity deleteTopicInformationById(@PathVariable long topicInformationId){
         topicInformationService.deleteTopicInformationById(topicInformationId);
         return new ResponseEntity("Done", HttpStatus.OK);

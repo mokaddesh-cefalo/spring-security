@@ -1,4 +1,4 @@
-package com.shovov.springsecurity.service.interface_class;
+package com.shovov.springsecurity.service.interfaces;
 
 import com.shovov.springsecurity.model.TopicInformation;
 

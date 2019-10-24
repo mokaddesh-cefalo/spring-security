@@ -1,8 +1,6 @@
-package com.shovov.springsecurity.service.interface_class;
+package com.shovov.springsecurity.service.interfaces;
 
 import com.shovov.springsecurity.model.Language;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
