@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface TopicRepository extends CrudRepository<Topic, Long> {
 
-    List<Topic> findTopicsByParentLanguage(Language language);
+    List<Topic> findAllByParentLanguage(Language language);
     List<Topic> findTopicsByUserName(String userName);
 }

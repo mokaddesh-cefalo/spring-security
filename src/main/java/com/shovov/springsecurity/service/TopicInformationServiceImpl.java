@@ -13,8 +13,8 @@ import java.util.Optional;
 @Service
 public class TopicInformationServiceImpl implements TopicInformationService {
 
-    @Autowired
-    TopicInformationRepository topicInformationRepository;
+    @Autowired TopicInformationRepository topicInformationRepository;
+    @Autowired AuthorizationForDB authorizationForDB;
 
     @Override
     public List<TopicInformation> getTopicInformationByTopicId(long topicId){
@@ -23,8 +23,11 @@ public class TopicInformationServiceImpl implements TopicInformationService {
 
     @Override
     public TopicInformation postTopicInformationByTopicId(long topicId,TopicInformation topicInformation){
-        topicInformation.setParentTopic( new Topic(topicId) );
-        return topicInformationRepository.save(topicInformation);
+        if(authorizationForDB.checkParentTopicIdForTopicInformation(topicId)){
+            topicInformation.setParentTopic( new Topic(topicId) );
+            topicInformation.setUserName(authorizationForDB.getLoggedInUserName());
+            return topicInformationRepository.save(topicInformation);
+        } else return null;
     }
 
     @Override
@@ -34,9 +37,15 @@ public class TopicInformationServiceImpl implements TopicInformationService {
 
     @Override
     public Optional<TopicInformation> updateTopicInformationById(long topicInformationId, TopicInformation topicInformation){
-        Optional<TopicInformation> fetchTopicInformation = topicInformationRepository.findById(topicInformationId);
+        Optional<TopicInformation> fetchTopicInformation = authorizationForDB.validateTopicInformationChangeRequest(topicInformationId);
         if(!fetchTopicInformation.isPresent()) return fetchTopicInformation;
 
+        TopicInformation prevTopicInformation = updateOldTopicInformation(topicInformation, fetchTopicInformation);
+
+        return Optional.of(topicInformationRepository.save(prevTopicInformation));
+    }
+
+    private TopicInformation updateOldTopicInformation(TopicInformation topicInformation, Optional<TopicInformation> fetchTopicInformation) {
         TopicInformation prevTopicInformation = fetchTopicInformation.get();
 
         if(topicInformation.getTopicInfoName() != null)
@@ -47,12 +56,12 @@ public class TopicInformationServiceImpl implements TopicInformationService {
 
         if(topicInformation.getTopicInfoDescription() != null)
             prevTopicInformation.setTopicInfoDescription( topicInformation.getTopicInfoDescription() );
-
-        return Optional.of(topicInformationRepository.save(prevTopicInformation));
+        return prevTopicInformation;
     }
 
     @Override
     public void deleteTopicInformationById(long topicInformationId){
-        topicInformationRepository.deleteById(topicInformationId);
+        Optional<TopicInformation> fetchTopicInformation = authorizationForDB.validateTopicInformationChangeRequest(topicInformationId);
+        if(fetchTopicInformation.isPresent()) topicInformationRepository.deleteById(topicInformationId);
     }
 }

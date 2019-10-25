@@ -1,4 +1,4 @@
-package com.shovov.springsecurity.controller_package;
+package com.shovov.springsecurity.controllers;
 
 import com.shovov.springsecurity.model.Topic;
 import com.shovov.springsecurity.service.interfaces.TopicService;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/languages/{languageId}/topic")
+@RequestMapping("/languages/{languageId}/topics")
 public class TopicController {
     @Autowired TopicService topicService;
 

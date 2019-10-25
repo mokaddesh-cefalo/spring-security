@@ -4,7 +4,9 @@ import com.shovov.springsecurity.model.Language;
 import com.shovov.springsecurity.model.Topic;
 import com.shovov.springsecurity.model.interfaces.TopicRepository;
 import com.shovov.springsecurity.service.interfaces.TopicService;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -15,17 +17,22 @@ import java.util.Optional;
 @Service
 public class TopicServiceImpl implements TopicService {
 
-    @Autowired
-    TopicRepository topicRepository;
+    @Autowired TopicRepository topicRepository;
+    @Autowired AuthorizationForDB authorizationForDB;
 
     @Override
     public List<Topic> getAllTopicForALanguage(long id){
-        return topicRepository.findTopicsByParentLanguage(new Language(id));
+        return topicRepository.findAllByParentLanguage(new Language(id));
     }
 
+    @Override
     public Topic postTopicForALanguage(long languageId, Topic topic){
-        topic.setParentLanguage(new Language(languageId));
-        return topicRepository.save(topic);
+        if(authorizationForDB.checkParentLanguageIdForTopic(languageId)){
+
+            topic.setParentLanguage(new Language(languageId));
+            topic.setUserName(authorizationForDB.getLoggedInUserName());
+            return topicRepository.save(topic);
+        } else return null;
     }
 
     @Override
@@ -35,7 +42,8 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public Optional<Topic> postTopicById(long id, Topic newTopic){
-        Optional<Topic> topic = topicRepository.findById(id);
+        Optional<Topic> topic = authorizationForDB
+                .validateTopicChangeRequest(id);
 
         if(!topic.isPresent()) return topic;
         else {
@@ -43,14 +51,14 @@ public class TopicServiceImpl implements TopicService {
             Topic prevTopic = topic.get();
 
             if(newTopic.getTopicName() != null) prevTopic.setTopicName(newTopic.getTopicName());
-            prevTopic.setLastModified(LocalDateTime.now());
-
             return Optional.of(topicRepository.save(prevTopic));
         }
     }
 
     @Override
     public void deleteTopicById(long id){
-        topicRepository.deleteById(id);
+        Optional<Topic> topic = authorizationForDB
+                .validateTopicChangeRequest(id);
+        if(topic.isPresent()) topicRepository.deleteById(id);
     }
 }

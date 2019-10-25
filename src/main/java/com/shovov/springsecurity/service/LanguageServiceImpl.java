@@ -18,15 +18,11 @@ import java.util.Optional;
 @Service
 public class LanguageServiceImpl implements LanguageService {
     @Autowired LanguageRepository languageRepository;
-
-    @Override
-    public String getLoggedInUserName(){
-        return SecurityContextHolder.getContext().getAuthentication().getName();
-    }
+    @Autowired AuthorizationForDB authorizationForDB;
 
     @Override
     public Language postLanguage(Language language){
-        language.setUserName(getLoggedInUserName());
+        language.setUserName(authorizationForDB.getLoggedInUserName());
         return languageRepository.save(language);
     }
 
@@ -42,29 +38,27 @@ public class LanguageServiceImpl implements LanguageService {
         return languageRepository.findById(id);
     }
 
-    Optional<Language> validateLanguageChangeRequest(long id){
-        Optional<Language> optionalLanguage = languageRepository.findById(id);
-        return (optionalLanguage.isPresent() && optionalLanguage.get().getUserName().equals(getLoggedInUserName()) )
-                ? optionalLanguage : Optional.ofNullable(null);
-    }
     @Override
     public void deleteLanguageById(long id){
-        Optional<Language> optionalLanguage = validateLanguageChangeRequest(id);
+        Optional<Language> optionalLanguage = authorizationForDB.validateLanguageChangeRequest(id);
         if(optionalLanguage.isPresent()) languageRepository.deleteById(id);
     }
 
     @Override
     public Optional<Language> postLanguageById(long id,Language language){
-        Optional<Language> optionalLanguage = validateLanguageChangeRequest(id);
+        Optional<Language> optionalLanguage = authorizationForDB.validateLanguageChangeRequest(id);
 
-        if(!optionalLanguage.isPresent()){
-           return optionalLanguage;
-        }
+        if(!optionalLanguage.isPresent()) { return optionalLanguage; }
 
         Language prevLanguageDeltails = optionalLanguage.get();
 
         if(language.getLanguageName() != null) prevLanguageDeltails.setLanguageName(language.getLanguageName());
         return Optional.ofNullable(languageRepository.save(prevLanguageDeltails));
+    }
+
+    @Override
+    public List<Language> findLanguagesByUserName(String userName){
+        return languageRepository.findLanguagesByUserName(userName);
     }
 }
 

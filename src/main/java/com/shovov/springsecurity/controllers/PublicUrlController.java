@@ -1,10 +1,8 @@
-package com.shovov.springsecurity.controller_package;
+package com.shovov.springsecurity.controllers;
 
 import com.shovov.springsecurity.model.User;
-import com.shovov.springsecurity.model.interfaces.UserRepository;
 import com.shovov.springsecurity.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

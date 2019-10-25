@@ -1,4 +1,4 @@
-package com.shovov.springsecurity.controller_package;
+package com.shovov.springsecurity.controllers;
 
 import com.shovov.springsecurity.model.TopicInformation;
 import com.shovov.springsecurity.service.interfaces.TopicInformationService;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/languages/{languageId}/topic/{topicId}/topicInformation")
+@RequestMapping("/languages/{languageId}/topics/{topicId}/topicInformations")
 public class TopicInformationController {
 
     @Autowired
